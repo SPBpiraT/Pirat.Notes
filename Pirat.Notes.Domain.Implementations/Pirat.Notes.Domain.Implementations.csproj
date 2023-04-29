@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pirat.Notes.DAL.Implementations\Pirat.Notes.DAL.Implementations.csproj" />
+    <ProjectReference Include="..\Pirat.Notes.Domain.Contracts\Pirat.Notes.Domain.Contracts.csproj" />
+    <ProjectReference Include="..\Pirat.Notes.Shared\Pirat.Notes.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
