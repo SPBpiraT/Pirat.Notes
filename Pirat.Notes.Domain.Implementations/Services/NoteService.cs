@@ -23,7 +23,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         public List<NoteModel> GetAll()
         {
-            var collection = _noteRepository.GetAll<NoteEntity>();
+            var collection = _noteRepository.GetAll();
 
             var result = _mapper.Map<List<NoteModel>>(collection);
 
@@ -32,7 +32,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         public NoteModel GetById(int id)
         {
-            var entity = _noteRepository.GetById<NoteEntity>(id);
+            var entity = _noteRepository.GetById(id);
 
             var model = _mapper.Map<NoteModel>(entity);
 
@@ -50,7 +50,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         public void Delete(int id)
         {
-            var entity = _noteRepository.GetById<NoteEntity>(id);
+            var entity = _noteRepository.GetById(id);
 
             if (entity != null)
                 _noteRepository.DeleteNote(id);

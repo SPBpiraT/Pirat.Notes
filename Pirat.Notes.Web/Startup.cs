@@ -6,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pirat.Notes.DAL.Contracts;
 using Pirat.Notes.DAL.Implementations;
+using Pirat.Notes.DAL.Implementations.Extensions;
 using Pirat.Notes.Domain.Contracts.Interfaces;
+using Pirat.Notes.Domain.Implementations.Extensions;
 using Pirat.Notes.Domain.Implementations.Services;
 using Pirat.Notes.Shared.Authorization;
 using Pirat.Notes.Shared.Helpers;
@@ -37,25 +39,19 @@ namespace Pirat.Notes.Web
 
             services.AddControllers();
 
-            services.AddHttpClient();
+            services.AddHttpClient(); // why?
 
             services.AddHttpContextAccessor();
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.Configure<AppSettings>(_configuration.GetSection("AppSettings"));
+            services.AddAuthServices();
 
-            services.AddScoped<IJwtUtils, JwtUtils>();
+            services.AddRepositories();
 
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddApplicationServices();
 
-            services.AddScoped<IUserService, UserService>();
 
-            services.AddScoped<INoteRepository, NoteRepository>();
-
-            services.AddScoped<INoteService, NoteService>();
-
-            services.AddScoped<IAdminService, AdminService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -99,7 +95,7 @@ namespace Pirat.Notes.Web
 
             // custom jwt auth middleware
 
-            app.UseMiddleware<JwtMiddleware>();
+            app.UseJwtAuth();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

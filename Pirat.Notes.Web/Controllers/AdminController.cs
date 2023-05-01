@@ -35,7 +35,7 @@ namespace Pirat.Notes.Web.Controllers
         {
             _adminService.DeleteUser(id);
 
-            _logger.LogInformation($"Admin: {UserName}, Id: {UserId} deleted user id: {id}.");
+            _logger.LogInformation("Admin: {AdminName}, Id: {AdminId} deleted user ID: {UserId}", UserName, UserId, id);
 
             return Ok(new { message = "User deleted successfully!" });
         }

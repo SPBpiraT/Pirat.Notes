@@ -18,11 +18,11 @@ namespace Pirat.Notes.Shared.Authorization
 
     public class JwtUtils : IJwtUtils
     {
-        private readonly AppSettings _appSettings;
+        private readonly AuthSettings _authSettings;
 
-        public JwtUtils(IOptions<AppSettings> appSettings)
+        public JwtUtils(IOptions<AuthSettings> appSettings)
         {
-            _appSettings = appSettings.Value;
+            _authSettings = appSettings.Value;
         }
 
         public string GenerateToken(UserEntity user)
@@ -30,7 +30,7 @@ namespace Pirat.Notes.Shared.Authorization
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(_authSettings.Secret);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -53,7 +53,7 @@ namespace Pirat.Notes.Shared.Authorization
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(_authSettings.Secret);
 
             try
             {

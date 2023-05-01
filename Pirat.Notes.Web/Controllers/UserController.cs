@@ -47,11 +47,10 @@ namespace Pirat.Notes.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<UserModel>> GetAll()
+        public ActionResult<List<UserModel>> GetAll() // pagination?
         {
             var users = _userService.GetAll();
 
-            if (users == null || !users.Any()) return users;
             return Ok(users);
         }
 
@@ -81,16 +80,15 @@ namespace Pirat.Notes.Web.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (UserId == id)
-            {
-                _userService.Delete(id);
+            // fail fast and early, avoid unnecessary nesting
+            if (UserId != id)
+                return new StatusCodeResult(403);
 
-                _logger.LogInformation($"User: {UserName}, id: {UserId} delete his account");
+            _userService.Delete(id);
 
-                return Ok(new { message = "User deleted successfully!" });
-            }
+            _logger.LogInformation($"User: {UserName}, id: {UserId} delete his account");
 
-            return new StatusCodeResult(403);
+            return Ok(new { message = "User deleted successfully!" });
         }
     }
 }

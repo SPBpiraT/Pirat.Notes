@@ -6,7 +6,7 @@ namespace Pirat.Notes.DAL.Contracts.Entities
     {
         public NoteEntity()
         {
-            NoteDate = DateTime.Now;
+            NoteDate = DateTime.Now; // bad idea
         }
 
         public int UserId { get; set; }
