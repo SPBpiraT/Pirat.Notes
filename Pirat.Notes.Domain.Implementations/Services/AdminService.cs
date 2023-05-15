@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using Pirat.Notes.DAL.Contracts;
-using Pirat.Notes.DAL.Contracts.Entities;
 using Pirat.Notes.Domain.Contracts.Interfaces;
 using Pirat.Notes.Domain.Contracts.Models;
 using Pirat.Notes.Domain.Contracts.Models.Notes;
@@ -51,7 +50,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         public UserModel SetUserRole(int id, UserRoleUpdateRequest request)
         {
-            var entity = _userRepository.GetById<UserEntity>(id);
+            var entity = _userRepository.GetById(id);
 
             if (entity != null)
             {
@@ -69,7 +68,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         public NoteModel UpdateNote(int id, NoteUpdateRequest model)
         {
-            var entity = _noteRepository.GetById<NoteEntity>(id);
+            var entity = _noteRepository.GetById(id);
 
             _mapper.Map(model, entity);
 
@@ -84,7 +83,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
         {
             _userService.Update(id, updateRequest);
 
-            var entity = _userRepository.GetById<UserEntity>(id);
+            var entity = _userRepository.GetById(id);
 
             var responce = _mapper.Map<UserModel>(entity);
 

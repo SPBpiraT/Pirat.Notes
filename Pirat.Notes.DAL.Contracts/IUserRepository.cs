@@ -2,7 +2,7 @@
 
 namespace Pirat.Notes.DAL.Contracts
 {
-    public interface IUserRepository : IDbRepository<IEntity>
+    public interface IUserRepository : IDbRepository<UserEntity>
     {
         UserEntity GetByUsername(UserEntity entity);
         void Add(UserEntity newEntity);

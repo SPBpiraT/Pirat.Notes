@@ -4,7 +4,7 @@ using Pirat.Notes.DAL.Contracts.Entities;
 
 namespace Pirat.Notes.DAL.Implementations
 {
-    public class UserRepository : DbRepository, IUserRepository
+    public class UserRepository : DbRepository<UserEntity>, IUserRepository
     {
         public UserRepository(DataContext context) : base(context)
         {

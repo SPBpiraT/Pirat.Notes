@@ -40,7 +40,7 @@ namespace Pirat.Notes.Web
                     .ReadFrom.Configuration(context.Configuration)
                     .ReadFrom.Services(services)
                     .Enrich.FromLogContext()
-                    .WriteTo.Console())
+                    .WriteTo.Console()) // REVIEW: why writing only to console? add file or Seq logger provider
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
         }
     }

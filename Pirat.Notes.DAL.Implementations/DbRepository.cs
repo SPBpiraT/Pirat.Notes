@@ -5,27 +5,27 @@ using Pirat.Notes.DAL.Contracts.Entities;
 
 namespace Pirat.Notes.DAL.Implementations
 {
-    public abstract class DbRepository : IDbRepository<IEntity>
+    public abstract class DbRepository<TEntity> : IDbRepository<TEntity> where TEntity : class, IEntity
     {
         protected readonly DataContext _context;
 
-        public DbRepository(DataContext context)
+        protected DbRepository(DataContext context)
         {
             _context = context;
         }
 
-        public T GetById<T>(int id) where T : class, IEntity
+        public TEntity GetById(int id)
         {
-            var entity = _context.Set<T>().FirstOrDefault(x => x.Id == id);
+            var entity = _context.Set<TEntity>().FirstOrDefault(x => x.Id == id);
 
             if (entity == null) throw new KeyNotFoundException("Entity not found.");
 
             return entity;
         }
 
-        public List<T> GetAll<T>() where T : class, IEntity
+        public List<TEntity> GetAll()
         {
-            return _context.Set<T>().ToList<T>();
+            return _context.Set<TEntity>().ToList();
         }
     }
 }

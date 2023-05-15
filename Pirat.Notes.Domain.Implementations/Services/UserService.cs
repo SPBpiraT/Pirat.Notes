@@ -23,7 +23,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         private readonly IMapper _mapper;
 
-        private readonly HttpClient _client;
+        private readonly HttpClient _client; //remove it
 
         public UserService(
             IJwtUtils jwtUtils,
@@ -56,7 +56,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         public List<UserModel> GetAll()
         {
-            var collection = _userRepository.GetAll<UserEntity>();
+            var collection = _userRepository.GetAll();
 
             var result = _mapper.Map<List<UserModel>>(collection);
 
@@ -66,7 +66,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         public UserModel GetById(int id)
         {
-            var user = _userRepository.GetById<UserEntity>(id);
+            var user = _userRepository.GetById(id);
 
             var model = _mapper.Map<UserModel>(user);
 
@@ -87,9 +87,9 @@ namespace Pirat.Notes.Domain.Implementations.Services
             // hash password
             user.PasswordHash = BCryptNet.HashPassword(model.Password); //TODO: move to separate type
 
-            user.RegisterDate = DateTime.Now;
+            user.RegisterDate = DateTime.Now; // untestable, consider using IDateTimeProvider
 
-            user.UserRole = Role.User;
+            user.UserRole = Role.User; 
 
             //add
             _userRepository.Add(user);
@@ -97,7 +97,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         public void Update(int id, UpdateRequest model)
         {
-            var user = _userRepository.GetById<UserEntity>(id);
+            var user = _userRepository.GetById(id);
 
             if (model.Username != user.Username && _userRepository.IsUsernameExist(model.Username))
                 throw new AppException("Username " + model.Username + " is already taken");
@@ -114,7 +114,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         public void Delete(int id)
         {
-            var entity = _userRepository.GetById<UserEntity>(id);
+            var entity = _userRepository.GetById(id);
 
             if (entity != null)
             {

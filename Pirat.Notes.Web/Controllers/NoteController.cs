@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -47,8 +46,6 @@ namespace Pirat.Notes.Web.Controllers
         {
             var collection = _noteService.GetAll();
 
-            if (collection == null || !collection.Any()) return collection;
-
             return Ok(collection);
         }
 
@@ -81,7 +78,7 @@ namespace Pirat.Notes.Web.Controllers
                 return Ok(new { message = "Note was deleted!" });
             }
 
-            return new StatusCodeResult(403);
+            return new ForbidResult();
         }
     }
 }

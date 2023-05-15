@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
+using Microsoft.Extensions.Logging;
 
 
 //using Pirat.Notes.DAL.Contracts.Entities;
@@ -12,18 +12,18 @@ namespace Pirat.Notes.Web.Controllers
     [Route("[controller]")]
     public abstract class BaseController : Controller
     {
-        protected ILogger _logger;
+        protected readonly ILogger _logger;
 
-        public BaseController(IHttpContextAccessor httpContextAccessor, ILogger logger)
+        protected BaseController(IHttpContextAccessor httpContextAccessor, ILogger logger)
         {
-            if (httpContextAccessor.HttpContext.Items["Id"] != null)
-                UserId = (int)httpContextAccessor.HttpContext.Items["Id"];
+            var httpContextItems = httpContextAccessor.HttpContext?.Items;
 
-            if (httpContextAccessor.HttpContext.Items["Username"] != null)
-                UserName = httpContextAccessor.HttpContext.Items["Username"].ToString();
-
-            if (httpContextAccessor.HttpContext.Items["Role"] != null)
-                Role = httpContextAccessor.HttpContext.Items["Role"].ToString();
+            if (httpContextItems is not null)
+            {
+                UserId = (int)httpContextItems["Id"];
+                UserName = httpContextItems["Username"] as string;
+                Role = httpContextItems["Role"] as string;
+            }
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
