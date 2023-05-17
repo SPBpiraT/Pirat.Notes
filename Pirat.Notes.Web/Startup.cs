@@ -1,3 +1,4 @@
+using Elasticsearch.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,8 @@ namespace Pirat.Notes.Web
             services.AddHttpContextAccessor();
 
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
             services.AddAuthServices();
 

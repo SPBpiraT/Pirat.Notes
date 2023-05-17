@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AutoMapper;
+using Elasticsearch.Net;
 using Pirat.Notes.DAL.Contracts;
 using Pirat.Notes.DAL.Contracts.Entities;
 using Pirat.Notes.Domain.Contracts.Interfaces;
@@ -14,11 +14,16 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         private readonly INoteRepository _noteRepository;
 
-        public NoteService(INoteRepository noteRepository, IMapper mapper)
+        private readonly IDateTimeProvider _dateTimeProvider;
+
+        public NoteService(INoteRepository noteRepository, IMapper mapper, IDateTimeProvider dateTimeProvider)
         {
+            _mapper = mapper;
+
             _noteRepository = noteRepository;
 
-            _mapper = mapper;
+            _dateTimeProvider = dateTimeProvider;
+
         }
 
         public List<NoteModel> GetAll()
@@ -43,7 +48,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
         {
             var entity = _mapper.Map<NoteEntity>(note);
 
-            entity.NoteDate = DateTime.Now;
+            entity.NoteDate = _dateTimeProvider.Now();
 
             _noteRepository.AddNote(entity);
         }

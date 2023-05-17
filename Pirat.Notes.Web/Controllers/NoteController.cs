@@ -69,7 +69,7 @@ namespace Pirat.Notes.Web.Controllers
         [HttpDelete("deletenote/{id}")]
         public IActionResult Delete(int id)
         {
-            if (UserId == _noteService.GetById(id).UserId)
+            if (UserId == _noteService.GetById(id).UserId) //if(UserId != _noteService.GetById(id).UserId) return new ForbidResult();
             {
                 _noteService.Delete(id);
 

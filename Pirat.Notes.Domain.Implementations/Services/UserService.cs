@@ -10,8 +10,8 @@ using Pirat.Notes.DAL.Contracts.Entities;
 using Pirat.Notes.DAL.Contracts.Roles;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using System.Net.Http;
+using Elasticsearch.Net;
 
 namespace Pirat.Notes.Domain.Implementations.Services
 {
@@ -23,17 +23,22 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         private readonly IMapper _mapper;
 
+        private readonly IDateTimeProvider _dateTimeProvider;
+
         private readonly HttpClient _client; //remove it
 
         public UserService(
             IJwtUtils jwtUtils,
             IMapper mapper,
-            IUserRepository userRepository, HttpClient client)
+            IUserRepository userRepository, 
+            HttpClient client,
+            IDateTimeProvider dateTimeProvider)
         {
             _jwtUtils = jwtUtils;
             _mapper = mapper;
             _userRepository = userRepository;
             _client = client;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
@@ -87,7 +92,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
             // hash password
             user.PasswordHash = BCryptNet.HashPassword(model.Password); //TODO: move to separate type
 
-            user.RegisterDate = DateTime.Now; // untestable, consider using IDateTimeProvider
+            user.RegisterDate = _dateTimeProvider.Now(); // untestable, consider using IDateTimeProvider
 
             user.UserRole = Role.User; 
 
