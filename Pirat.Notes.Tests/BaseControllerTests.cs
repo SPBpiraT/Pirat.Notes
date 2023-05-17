@@ -19,11 +19,6 @@ namespace Pirat.Notes.Tests
 
         protected readonly CustomWebApplicationFactory<Program> _factory;
 
-        protected readonly TransactionOptions _transactionOptions = new ()
-        {
-            IsolationLevel = IsolationLevel.ReadCommitted
-        };
-
         protected readonly RegisterRequest _userRegisterRequest = new ()
         {
             FirstName = "Tester",

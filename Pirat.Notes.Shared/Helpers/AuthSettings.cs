@@ -1,6 +1,6 @@
 ﻿namespace Pirat.Notes.Shared.Helpers
 {
-    public class AppSettings
+    public class AuthSettings
     {
         public string Secret { get; set; }
     }
