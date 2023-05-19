@@ -18,7 +18,7 @@ namespace Pirat.Notes.Web.Controllers
         {
             var httpContextItems = httpContextAccessor.HttpContext?.Items;
 
-            if (httpContextItems is not null)
+            if (httpContextItems is not null && httpContextItems.ContainsKey("Id"))
             {
                 UserId = (int)httpContextItems["Id"];
                 UserName = httpContextItems["Username"] as string;
