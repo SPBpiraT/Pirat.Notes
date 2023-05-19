@@ -37,8 +37,6 @@ namespace Pirat.Notes.Web
 
             services.AddControllers();
 
-            services.AddHttpClient(); //remove it
-
             services.AddHttpContextAccessor();
 
             services.AddAutoMapper(typeof(Startup));

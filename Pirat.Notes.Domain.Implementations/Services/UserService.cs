@@ -25,8 +25,6 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         private readonly IDateTimeProvider _dateTimeProvider;
 
-        private readonly HttpClient _client; //remove it
-
         public UserService(
             IJwtUtils jwtUtils,
             IMapper mapper,
@@ -124,8 +122,6 @@ namespace Pirat.Notes.Domain.Implementations.Services
             if (entity != null)
             {
                 _userRepository.Delete(id);
-
-                _client.DefaultRequestHeaders.Clear();
             }
 
             else throw new KeyNotFoundException("User not found!");
