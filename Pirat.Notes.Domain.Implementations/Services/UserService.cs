@@ -29,13 +29,11 @@ namespace Pirat.Notes.Domain.Implementations.Services
             IJwtUtils jwtUtils,
             IMapper mapper,
             IUserRepository userRepository, 
-            HttpClient client,
             IDateTimeProvider dateTimeProvider)
         {
             _jwtUtils = jwtUtils;
             _mapper = mapper;
             _userRepository = userRepository;
-            _client = client;
             _dateTimeProvider = dateTimeProvider;
         }
 
