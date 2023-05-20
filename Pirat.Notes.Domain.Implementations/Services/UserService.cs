@@ -10,7 +10,6 @@ using Pirat.Notes.DAL.Contracts.Entities;
 using Pirat.Notes.DAL.Contracts.Roles;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using Elasticsearch.Net;
 
 namespace Pirat.Notes.Domain.Implementations.Services

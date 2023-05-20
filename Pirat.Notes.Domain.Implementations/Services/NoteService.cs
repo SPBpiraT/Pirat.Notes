@@ -50,7 +50,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
             entity.NoteDate = _dateTimeProvider.Now();
 
-            _noteRepository.AddNote(entity);
+            _noteRepository.Add(entity);
         }
 
         public void Delete(int id)
@@ -58,7 +58,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
             var entity = _noteRepository.GetById(id);
 
             if (entity != null)
-                _noteRepository.DeleteNote(id);
+                _noteRepository.Delete(id);
 
             else throw new KeyNotFoundException("Note not found");
         }
