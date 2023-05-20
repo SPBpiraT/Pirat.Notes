@@ -88,7 +88,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
             // hash password
             user.PasswordHash = BCryptNet.HashPassword(model.Password); //TODO: move to separate type
 
-            user.RegisterDate = _dateTimeProvider.Now(); // untestable, consider using IDateTimeProvider
+            user.RegisterDate = _dateTimeProvider.Now();
 
             user.UserRole = Role.User; 
 
