@@ -72,7 +72,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
             _mapper.Map(model, entity);
 
-            _noteRepository.UpdateNote(entity);
+            _noteRepository.Update(entity);
 
             var responce = _mapper.Map<NoteModel>(entity);
 

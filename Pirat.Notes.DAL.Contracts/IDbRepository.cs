@@ -7,10 +7,8 @@ namespace Pirat.Notes.DAL.Contracts
     {
         TEntity GetById(int id);
         List<TEntity> GetAll();
-        
-        //Add other abstracs methods
-        //Delete(int id)
-        //Update(TEntity)
-        //Add(TEntity)
+        void Add(TEntity entity);
+        void Update(TEntity entity);
+        void Delete(int id);
     }
 }
