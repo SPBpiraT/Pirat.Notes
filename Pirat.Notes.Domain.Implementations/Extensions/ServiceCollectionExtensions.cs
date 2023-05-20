@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-
 using Pirat.Notes.Domain.Contracts.Interfaces;
 using Pirat.Notes.Domain.Implementations.Services;
 

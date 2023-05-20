@@ -60,7 +60,8 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
             var result = _mapper.Map<List<UserModel>>(collection);
 
-            if (result == null || !result.Any()) return new List<UserModel>();
+            if (result == null || !result.Any()) return new List<UserModel>(); //fail fast if(collection is null)
+
             return result;
         }
 
@@ -70,7 +71,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
             var model = _mapper.Map<UserModel>(user);
 
-            if (model == null)
+            if (model == null) //fail fast if(user is null)
                 throw new KeyNotFoundException("User not found!");
 
             return model;
@@ -116,7 +117,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
         {
             var entity = _userRepository.GetById(id);
 
-            if (entity != null)
+            if (entity != null) //fail fast
             {
                 _userRepository.Delete(id);
             }

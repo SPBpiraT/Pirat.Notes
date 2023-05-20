@@ -52,7 +52,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
         {
             var entity = _userRepository.GetById(id);
 
-            if (entity != null)
+            if (entity != null) //fail fast
             {
                 _mapper.Map(request, entity);
 

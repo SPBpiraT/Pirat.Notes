@@ -57,7 +57,7 @@ namespace Pirat.Notes.Domain.Implementations.Services
         {
             var entity = _noteRepository.GetById(id);
 
-            if (entity != null)
+            if (entity != null) //fail fast
                 _noteRepository.Delete(id);
 
             else throw new KeyNotFoundException("Note not found");
