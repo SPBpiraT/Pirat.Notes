@@ -95,6 +95,8 @@ namespace Pirat.Notes.Web
             services.AddRepositories();
 
             services.AddApplicationServices();
+
+            services.AddMemoryCache();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

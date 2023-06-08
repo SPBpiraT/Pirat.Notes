@@ -11,6 +11,9 @@ using Pirat.Notes.DAL.Contracts.Roles;
 using System.Collections.Generic;
 using System.Linq;
 using Elasticsearch.Net;
+using Microsoft.Extensions.Caching.Memory;
+using Pirat.Notes.DAL.Implementations;
+using System;
 
 namespace Pirat.Notes.Domain.Implementations.Services
 {
@@ -24,16 +27,20 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         private readonly IDateTimeProvider _dateTimeProvider;
 
+        private readonly IMemoryCache _cache;
+
         public UserService(
             IJwtUtils jwtUtils,
             IMapper mapper,
             IUserRepository userRepository, 
-            IDateTimeProvider dateTimeProvider)
+            IDateTimeProvider dateTimeProvider,
+            IMemoryCache cache)
         {
             _jwtUtils = jwtUtils;
             _mapper = mapper;
             _userRepository = userRepository;
             _dateTimeProvider = dateTimeProvider;
+            _cache = cache;
         }
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
@@ -56,13 +63,25 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         public List<UserModel> GetAll()
         {
-            var collection = _userRepository.GetAll();
+            _cache.TryGetValue("users", out List<UserEntity> col);
 
-            var result = _mapper.Map<List<UserModel>>(collection);
+            if (col == null)
+            {
+                col = _userRepository.GetAll();
 
-            if (result == null || !result.Any()) return new List<UserModel>(); //fail fast if(collection is null)
+                if (col != null)
+                {
+                    _cache.Set("users", col, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+                }
+            }
+
+            var result = _mapper.Map<List<UserModel>>(col);
+
+            if (result == null || !result.Any()) return new List<UserModel>();
 
             return result;
+
+            //TODO make caching extensions
         }
 
         public UserModel GetById(int id)

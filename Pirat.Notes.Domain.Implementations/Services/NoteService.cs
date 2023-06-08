@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Elasticsearch.Net;
+using Microsoft.Extensions.Caching.Memory;
 using Pirat.Notes.DAL.Contracts;
 using Pirat.Notes.DAL.Contracts.Entities;
 using Pirat.Notes.Domain.Contracts.Interfaces;
@@ -16,7 +18,12 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
         private readonly IDateTimeProvider _dateTimeProvider;
 
-        public NoteService(INoteRepository noteRepository, IMapper mapper, IDateTimeProvider dateTimeProvider)
+        private readonly IMemoryCache _cache;
+
+        public NoteService(INoteRepository noteRepository, 
+            IMapper mapper, 
+            IDateTimeProvider dateTimeProvider,
+            IMemoryCache cache)
         {
             _mapper = mapper;
 
@@ -24,13 +31,25 @@ namespace Pirat.Notes.Domain.Implementations.Services
 
             _dateTimeProvider = dateTimeProvider;
 
+            _cache = cache;
+
         }
 
         public List<NoteModel> GetAll()
         {
-            var collection = _noteRepository.GetAll();
+            _cache.TryGetValue("notes", out List<NoteEntity> col);
 
-            var result = _mapper.Map<List<NoteModel>>(collection);
+            if (col == null)
+            {
+                col = _noteRepository.GetAll();
+
+                if (col != null)
+                {
+                    _cache.Set("notes", col, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+                }
+            }
+
+            var result = _mapper.Map<List<NoteModel>>(col);
 
             return result;
         }
