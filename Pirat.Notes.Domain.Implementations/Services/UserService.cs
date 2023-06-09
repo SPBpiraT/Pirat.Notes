@@ -19,9 +19,9 @@ namespace Pirat.Notes.Domain.Implementations.Services
 {
     public class UserService : IUserService
     {
-        private IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        private IJwtUtils _jwtUtils;
+        private readonly IJwtUtils _jwtUtils;
 
         private readonly IMapper _mapper;
 
