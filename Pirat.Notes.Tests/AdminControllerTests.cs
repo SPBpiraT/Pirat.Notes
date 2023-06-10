@@ -179,6 +179,8 @@ namespace Pirat.Notes.Tests
 
             HttpResponseMessage response = await _client.PutAsJsonAsync($"admin/updatenote/{testNote.Id}", noteUpdateRequest);
 
+            await _client.DeleteAsync($"admin/deletenote/{testNote.Id}");
+
             //Assert
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
